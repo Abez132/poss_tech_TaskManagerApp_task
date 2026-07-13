@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Task, Filter } from "./types";
+import { apiFetch } from "./api";
+import AuthPage from "./components/AuthPage";
 import Header from "./components/Header";
 import ProgressBar from "./components/ProgressBar";
 import TaskInput from "./components/TaskInput";
@@ -8,6 +10,9 @@ import TaskItem from "./components/TaskItem";
 import EmptyState from "./components/EmptyState";
 
 export default function App() {
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem("token"),
+  );
   const [tasks, setTasks] = useState<Task[]>([]);
   const [input, setInput] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
@@ -17,11 +22,12 @@ export default function App() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [completingId, setCompletingId] = useState<string | null>(null);
 
-  // ── Fetch all tasks on mount ──────────────────────────────────────────────
+  // ── Fetch tasks on mount ──────────────────────────────────────────────────
   useEffect(() => {
+    if (!token) return;
     const fetchTasks = async () => {
       try {
-        const res = await fetch("/users");
+        const res = await apiFetch("/users");
         const data = await res.json();
         setTasks(data);
       } catch {
@@ -31,17 +37,21 @@ export default function App() {
       }
     };
     fetchTasks();
-  }, []);
+  }, [token]);
 
-  // ── Add a new task ────────────────────────────────────────────────────────
+  // ── Show auth page if not logged in ──────────────────────────────────────
+  if (!token) {
+    return <AuthPage onAuth={(t) => setToken(t)} />;
+  }
+
+  // ── Add task ──────────────────────────────────────────────────────────────
   const addTask = async () => {
     const trimmed = input.trim();
     if (!trimmed) return;
     setAdding(true);
     try {
-      const res = await fetch("/users", {
+      const res = await apiFetch("/users", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ task: trimmed }),
       });
       const data = await res.json();
@@ -54,11 +64,11 @@ export default function App() {
     }
   };
 
-  // ── Toggle completed / active ─────────────────────────────────────────────
+  // ── Toggle completed ──────────────────────────────────────────────────────
   const toggleTask = async (id: string) => {
     setCompletingId(id);
     try {
-      const res = await fetch(`/users/${id}`, { method: "PATCH" });
+      const res = await apiFetch(`/users/${id}`, { method: "PATCH" });
       const updated = await res.json();
       setTasks((prev) =>
         prev.map((t) =>
@@ -72,11 +82,11 @@ export default function App() {
     }
   };
 
-  // ── Delete a task ─────────────────────────────────────────────────────────
+  // ── Delete task ───────────────────────────────────────────────────────────
   const deleteTask = async (id: string) => {
     setDeletingId(id);
     try {
-      await fetch(`/users/${id}`, { method: "DELETE" });
+      await apiFetch(`/users/${id}`, { method: "DELETE" });
       setTimeout(() => {
         setTasks((prev) => prev.filter((t) => t.id !== id));
         setDeletingId(null);
@@ -85,6 +95,13 @@ export default function App() {
       setError("Failed to delete task.");
       setDeletingId(null);
     }
+  };
+
+  // ── Logout ────────────────────────────────────────────────────────────────
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+    setTasks([]);
   };
 
   // ── Derived values ────────────────────────────────────────────────────────
@@ -114,6 +131,16 @@ export default function App() {
 
       {/* Main card */}
       <div className="relative z-10 w-full max-w-[580px] bg-surface backdrop-blur-2xl border border-white/[0.07] rounded-3xl p-8 shadow-[0_32px_80px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.05)]">
+        {/* Logout button */}
+        <div className="flex justify-end mb-[-8px]">
+          <button
+            onClick={logout}
+            className="text-xs text-slate-500 hover:text-red-400 transition-colors px-2 py-1 rounded-lg hover:bg-red-400/10"
+          >
+            Sign out
+          </button>
+        </div>
+
         <Header
           activeCount={activeCount}
           completedCount={completedCount}
@@ -162,7 +189,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* Slide-in animation */}
       <style>{`
         @keyframes slideIn {
           from { opacity: 0; transform: translateY(10px) scale(0.98); }
