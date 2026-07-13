@@ -32,7 +32,7 @@ export default function FilterBar({
         >
           {labels[f]}
           <span
-            className={`text-xs font-bold px-1.5 py-0.5 rounded-md min-w-[18px] text-center
+            className={`text-xs font-bold px-1.5 py-0.5 rounded-md min-w-4.5 text-center
             ${filter === f ? "bg-violet-500/30 text-violet-300" : "bg-white/8 text-slate-500"}`}
           >
             {counts[f]}

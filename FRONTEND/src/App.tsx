@@ -22,7 +22,6 @@ export default function App() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [completingId, setCompletingId] = useState<string | null>(null);
 
-  // ── Fetch tasks on mount ──────────────────────────────────────────────────
   useEffect(() => {
     if (!token) return;
     const fetchTasks = async () => {
@@ -39,12 +38,10 @@ export default function App() {
     fetchTasks();
   }, [token]);
 
-  // ── Show auth page if not logged in ──────────────────────────────────────
   if (!token) {
     return <AuthPage onAuth={(t) => setToken(t)} />;
   }
 
-  // ── Add task ──────────────────────────────────────────────────────────────
   const addTask = async () => {
     const trimmed = input.trim();
     if (!trimmed) return;
@@ -64,7 +61,6 @@ export default function App() {
     }
   };
 
-  // ── Toggle completed ──────────────────────────────────────────────────────
   const toggleTask = async (id: string) => {
     setCompletingId(id);
     try {
@@ -82,7 +78,6 @@ export default function App() {
     }
   };
 
-  // ── Delete task ───────────────────────────────────────────────────────────
   const deleteTask = async (id: string) => {
     setDeletingId(id);
     try {
@@ -97,14 +92,12 @@ export default function App() {
     }
   };
 
-  // ── Logout ────────────────────────────────────────────────────────────────
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
     setTasks([]);
   };
 
-  // ── Derived values ────────────────────────────────────────────────────────
   const totalCount = tasks.length;
   const completedCount = tasks.filter((t) => t.completed).length;
   const activeCount = totalCount - completedCount;
@@ -125,17 +118,17 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#07070f] flex items-start justify-center px-4 py-14 font-sans overflow-hidden relative">
       {/* Ambient background blobs */}
-      <div className="fixed w-[500px] h-[500px] rounded-full bg-violet-600/20 blur-[100px] -top-32 -left-24 animate-pulse pointer-events-none" />
-      <div className="fixed w-[400px] h-[400px] rounded-full bg-blue-600/15 blur-[100px] -bottom-20 -right-20 animate-pulse pointer-events-none" />
-      <div className="fixed w-[300px] h-[300px] rounded-full bg-pink-500/10 blur-[80px] top-1/2 left-2/3 pointer-events-none" />
+      <div className="fixed w-125 h-125 rounded-full bg-violet-600/20 blur-[100px] -top-32 -left-24 animate-pulse pointer-events-none" />
+      <div className="fixed w-100 h-100 rounded-full bg-blue-600/15 blur-[100px] -bottom-20 -right-20 animate-pulse pointer-events-none" />
+      <div className="fixed w-75 h-75 rounded-full bg-pink-500/10 blur-[80px] top-1/2 left-2/3 pointer-events-none" />
 
       {/* Main card */}
-      <div className="relative z-10 w-full max-w-[580px] bg-surface backdrop-blur-2xl border border-white/[0.07] rounded-3xl p-8 shadow-[0_32px_80px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.05)]">
+      <div className="relative z-10 w-full max-w-145 bg-surface backdrop-blur-2xl border border-white/[0.07] rounded-3xl p-8 shadow-[0_32px_80px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.05)]">
         {/* Logout button */}
-        <div className="flex justify-end mb-[-8px]">
+        <div className="flex justify-end -mb-2">
           <button
             onClick={logout}
-            className="text-xs text-slate-500 hover:text-red-400 transition-colors px-2 py-1 rounded-lg hover:bg-red-400/10"
+            className="text-xs text-slate-500 hover:text-red-400 transition-colors px-2 py-1 rounded-lg m-7 hover:bg-red-400/10"
           >
             Sign out
           </button>

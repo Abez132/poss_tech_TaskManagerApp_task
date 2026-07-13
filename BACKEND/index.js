@@ -13,8 +13,8 @@ const port = 5000;
 
 app.use(bodyParser.json());
 
-app.use("/auth", authRouter); // public  — register & login
-app.use("/users", taskRouter); // protected — requires JWT
+app.use("/auth", authRouter); 
+app.use("/users", taskRouter); 
 
 app.get("/", async (_req, res) => {
     const result = await pool.query("select current_database()");
