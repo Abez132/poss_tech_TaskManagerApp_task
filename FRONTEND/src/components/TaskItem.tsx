@@ -19,8 +19,8 @@ export default function TaskItem({
 }: TaskItemProps) {
   return (
     <div
-      className={`group flex items-center gap-3 bg-white/[0.03] border border-white/[0.07] rounded-2xl px-4 py-3.5 transition-all duration-300
-        hover:bg-white/[0.05] hover:border-violet-500/20 hover:-translate-y-px hover:shadow-lg hover:shadow-black/30
+      className={`group flex items-center gap-3 bg-white/3 border border-white/[0.07] rounded-2xl px-4 py-3.5 transition-all duration-300
+        hover:bg-white/5 hover:border-violet-500/20 hover:-translate-y-px hover:shadow-lg hover:shadow-black/30
         ${task.completed ? "opacity-50" : ""}
         ${isDeleting ? "opacity-0 translate-x-4 scale-[0.97] pointer-events-none" : ""}
       `}
@@ -37,7 +37,7 @@ export default function TaskItem({
         className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all
           ${
             task.completed
-              ? "bg-gradient-to-br from-violet-600 to-indigo-600 border-transparent shadow-md shadow-violet-500/40"
+              ? "bg-linear-to-br from-violet-600 to-indigo-600 border-transparent shadow-md shadow-violet-500/40"
               : "border-white/15 hover:border-violet-500 hover:bg-violet-500/15 hover:scale-110 hover:shadow-violet-500/30"
           }
           ${isCompleting ? "animate-pulse border-violet-500" : ""}
@@ -63,7 +63,7 @@ export default function TaskItem({
       {/* Task text */}
       <div className="flex-1 min-w-0">
         <span
-          className={`text-sm leading-snug break-words ${task.completed ? "line-through text-slate-600" : "text-slate-300"}`}
+          className={`text-sm leading-snug wrap-break-word ${task.completed ? "line-through text-slate-600" : "text-slate-300"}`}
         >
           {task.task}
         </span>

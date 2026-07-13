@@ -40,7 +40,7 @@ export default function TaskInput({
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={adding}
-          className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-10 pr-4 py-3 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-violet-500/60 focus:bg-violet-500/5 focus:ring-2 focus:ring-violet-500/10 disabled:opacity-50"
+          className="w-full bg-white/4 border border-white/8 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-200 placeholder-slate-600 outline-none transition-all focus:border-violet-500/60 focus:bg-violet-500/5 focus:ring-2 focus:ring-violet-500/10 disabled:opacity-50"
         />
       </div>
 
@@ -48,7 +48,7 @@ export default function TaskInput({
       <button
         onClick={onAdd}
         disabled={adding || !value.trim()}
-        className="bg-gradient-to-br from-violet-600 to-indigo-600 text-white text-sm font-semibold px-5 rounded-xl transition-all shadow-lg shadow-violet-500/30 hover:-translate-y-0.5 hover:shadow-violet-500/50 active:translate-y-0 disabled:opacity-35 disabled:cursor-not-allowed disabled:shadow-none disabled:transform-none min-w-[96px] flex items-center justify-center"
+        className="bg-linear-to-br from-violet-600 to-indigo-600 text-white text-sm font-semibold px-5 rounded-xl transition-all shadow-lg shadow-violet-500/30 hover:-translate-y-0.5 hover:shadow-violet-500/50 active:translate-y-0 disabled:opacity-35 disabled:cursor-not-allowed disabled:shadow-none disabled:transform-none min-w-[96px] flex items-center justify-center"
       >
         {adding ? (
           <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

@@ -8,7 +8,7 @@ const createTable = async () => {
 );`;
     try {
     await pool.query(query);
-    console.log("database created ");
+    console.log("table created ");
     } catch (error) {
     console.log(`something went wrong ${error}`);
     }

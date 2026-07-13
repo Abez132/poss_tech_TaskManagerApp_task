@@ -13,7 +13,7 @@ export default function Header({
     <div className="flex items-center justify-between mb-6">
       {/* Left: logo + title */}
       <div className="flex items-center gap-4">
-        <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/30 shrink-0">
+        <div className="w-11 h-11 rounded-2xl bg-linear-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/30 shrink-0">
           <svg
             width="20"
             height="20"
