@@ -21,8 +21,7 @@ const createTable = async () => {
             created_at TIMESTAMPTZ DEFAULT NOW()
         );
         `);
-
-        // Add priority column if it doesn't exist yet (safe to run on existing DBs)
+        
         await pool.query(`
         DO $$
         BEGIN

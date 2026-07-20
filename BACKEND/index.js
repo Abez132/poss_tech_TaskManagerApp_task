@@ -15,14 +15,13 @@ const port = 5000;
 app.use(bodyParser.json());
 
 app.use("/auth", authRouter);
-app.use("/users", taskRouter);
+app.use("/users", taskRouter); 
 
 app.get("/", async (_req, res) => {
   const result = await pool.query("select current_database()");
   res.send(`connected to: ${result.rows[0].current_database}`);
 });
 
-// Centralized error handler — must have 4 params for Express to treat it as an error handler
 app.use((err, _req, res, _next) => {
   logger.error("unhandled error", { error: err });
   res

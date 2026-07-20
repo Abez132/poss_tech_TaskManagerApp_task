@@ -16,8 +16,7 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
     ...options,
     headers: { ...authHeaders(), ...(options.headers ?? {}) },
   });
-
-  // Token expired or invalid — clear it so the app redirects to login
+  
   if (res.status === 401) {
     localStorage.removeItem("token");
     window.location.reload();

@@ -1,7 +1,6 @@
 import { describe, it, expect, jest } from "@jest/globals";
 import authMiddleware from "./auth.js";
 
-// Mock req, res, next helpers
 const mockRes = () => {
   const res = {};
   res.status = jest.fn().mockReturnValue(res);
